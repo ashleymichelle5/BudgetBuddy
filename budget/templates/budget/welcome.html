@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="welcome-container">
+        <div class="welcome-content">
+            <h1>Welcome to BudgetBuddy</h1>
+            <p>Track your spending, set savings goals, and stay on top of your finances with BudgetBuddy.</p>
+        </div>
+        <div class="acc-buttons">
+            <a href="{% url 'budget:login' %}" class="btn">Login</a>
+            <a href="{% url 'budget:register' %}" class="btn">Register</a>
+        </div>
+
+    </div>
+
+{% endblock %}

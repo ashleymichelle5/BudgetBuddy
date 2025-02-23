@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="analysis-container">
+        <h2>Monthly Spending Analysis</h2>
+        <h3>Monthly spending: ${{ total_spent }}</h3>
+
+        {% if category_analysis %}
+            <div class="analysis-grid">
+                {% for category in category_analysis %}
+                    <div class="category-card">
+                        <h3>{{ category.category__name }}</h3>
+                        <div class="category-info">
+                          <p class="amount">${{category.total_spent |floatformat:2}}</p>
+                          <div class="progress-bar" style="width: {{ category.percentage }}%"></div>
+                          <p class="percentage">{{ category.percentage|floatformat:1 }}%</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No spending data available for this month</p>
+            <a href="{% url 'budget:add_transaction' %}" class="btn">Add a transaction</a>
+        {% endif %}
+    </div>
+{% endblock %}

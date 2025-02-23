@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="dashboard">
+        <h1>Dashboard</h1>
+
+        <div class="profile-summary">
+            <h2>Profile</h2>
+            <p>Monthly Income: ${{ profile.monthly_income}}</p>
+            <p>Currency: {{ profile.currency }}</p>
+            <a href="{% url 'budget:edit_profile' %}" class="btn">Edit profile</a>
+        </div>
+
+        <div class= "summary">
+            <h2>My budget: ${{ total_budget }}</h2>
+            <h2>Remaining Budget: ${{ remaining_budget }} </h2>
+            <h2>Total spent: ${{ total_spent }}</h2>
+            
+        </div>
+
+        <div class ="savings_goals">
+            <h2>Current savings goals:</h2>
+            {% for goal in savings_goals %}
+                <div class="goal">
+                    <h3>{{goal.name}}</h3>
+                    <p>Progress: ${{ goal.current_amount}} / ${{ goal.target_amount }}</p>
+                    <p>Target Date: {{ goal.target_date}}</p>
+                    {% if goal.is_completed %}  
+                    <p>Goal completed!</p>
+                    {% else %}
+                        <a href="{% url 'budget:edit_savings_goal' goal.id %}" class="btn">Edit Goal</a>
+                        {% endif %}
+                </div>
+            {% endfor %}
+            <a href="{% url 'budget:add_savings_goal' %}" class="btn">Add New Goal</a>
+        </div>
+
+        <div class ="category-totals">
+            <h2>Spends for category:</h2>
+            {% for category in category_totals %}
+                <div class="category">
+                    {{category.category__name}}: ${{category.total | floatformat:2}}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="transactions">
+            <h2>Recent transactions:</h2>
+            <a href="{% url 'budget:add_transaction' %}" class="btn">Add a transaction</a>
+            {% for transaction in transactions %}
+                <div class="transaction">
+                    {{transaction.date}} - {{transaction.category_name}} - ${{transaction.spend}}
+                    <a href="{% url 'budget:edit_transaction' transaction.id %}">Edit</a>                    
+                </div>
+            {% endfor %}
+        </div>
+            
+    </div>
+
+
+{% endblock %}

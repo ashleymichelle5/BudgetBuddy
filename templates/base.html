@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %} - BudgetBuddy{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        {% block extra_css %}{% endblock %}
+    </head>
+
+    <body>
+        <header>
+            <nav>
+                {% if user.is_authenticated %}
+                <div class="user-info">
+                    <p>Welcome, {{ user.username }}</p>
+                </div>
+                    <a href="{% url 'budget:dashboard' %}">Dashboard</a>
+                    <a href="{% url 'budget:edit_profile' %}">Edit Profile</a>
+                    <a href="{% url 'budget:spending_analysis' %}">Analysis</a>
+                    <form method="post" action="{% url 'budget:logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">Logout</button>
+                    </form>
+                    
+                {% else %}
+                    <a href="{% url 'budget:login' %}">Login</a>
+                    <a href="{% url 'budget:register' %}">Register</a>
+                {% endif %}
+            </nav>
+        </header>
+
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+
+        <footer>
+            <p>&copy; 2025 BudgetBuddy</p>
+        </footer>
+</html>

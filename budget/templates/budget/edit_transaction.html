@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="form-container">
+    <h2>Edit Transaction</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn">Update Transaction</button>
+</form>
+<a href="{% url 'budget:delete_transaction' transaction.id %}">Delete Transaction</a>
+</div>
+{% endblock %}
