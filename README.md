@@ -1,10 +1,10 @@
 # BudgetBuddy 
-![screenshot of the app](./static/img/Screenshot-app.png)
+![screenshot of the app](./budget/static/img/Screenshot-app.png)
 
 BudgetBuddy is a full-featured web application built with Python, designed to help users easily manage their monthly budget, track spending across various categories, and manage deposits. The app provides a clean user-friendly interface where users can view and interact with their financial data.
 
 ## Planning materials: 
-![planning-tables](./static/img/tables.jpeg)
+![planning-tables](./budget/static/img/tables.jpeg)
 [My-Trello](https://trello.com/b/NAEff5JR/budget-planner)
 
 ### Link
