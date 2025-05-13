@@ -1,7 +1,7 @@
 # BudgetBuddy 
 ![screenshot of the app](./budget/static/img/Screenshot-app.png)
 
-BudgetBuddy is a full-featured web application built with Python, designed to help users easily manage their monthly budget, track spending across various categories, and manage deposits. The app provides a clean user-friendly interface where users can view and interact with their financial data.
+BudgetBuddy is a comprehensive web application built with Python, Django, and SQL that empowers users to efficiently manage their monthly budgets, track spending across various categories, and monitor deposits. Leveraging Django’s robust backend framework and SQL for reliable data storage, the app provides a secure and scalable foundation. Its clean, user-friendly interface ensures a seamless experience for users to view, analyze, and interact with their financial data.
 
 ## Planning materials: 
 ![planning-tables](./budget/static/img/tables.jpeg)
