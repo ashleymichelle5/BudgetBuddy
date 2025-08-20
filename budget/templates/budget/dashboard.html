@@ -1,61 +1,215 @@
 {% extends 'base.html' %}
 
+{% block title %}Dashboard{% endblock %}
+
 {% block content %}
-    <div class="dashboard">
+
+<div class="dashboard">
+    <div class="dashboard-header">
         <h1>Dashboard</h1>
-
-        <div class="profile-summary">
-            <h2>Profile</h2>
-            <p>Monthly Income: ${{ profile.monthly_income}}</p>
-            <p>Currency: {{ profile.currency }}</p>
-            <a href="{% url 'budget:edit_profile' %}" class="btn">Edit profile</a>
-        </div>
-
-        <div class= "summary">
-            <h2>My budget: ${{ total_budget }}</h2>
-            <h2>Remaining Budget: ${{ remaining_budget }} </h2>
-            <h2>Total spent: ${{ total_spent }}</h2>
-            
-        </div>
-
-        <div class ="savings_goals">
-            <h2>Current savings goals:</h2>
-            {% for goal in savings_goals %}
-                <div class="goal">
-                    <h3>{{goal.name}}</h3>
-                    <p>Progress: ${{ goal.current_amount}} / ${{ goal.target_amount }}</p>
-                    <p>Target Date: {{ goal.target_date}}</p>
-                    {% if goal.is_completed %}  
-                    <p>Goal completed!</p>
-                    {% else %}
-                        <a href="{% url 'budget:edit_savings_goal' goal.id %}" class="btn">Edit Goal</a>
-                        {% endif %}
-                </div>
-            {% endfor %}
-            <a href="{% url 'budget:add_savings_goal' %}" class="btn">Add New Goal</a>
-        </div>
-
-        <div class ="category-totals">
-            <h2>Spends for category:</h2>
-            {% for category in category_totals %}
-                <div class="category">
-                    {{category.category__name}}: ${{category.total | floatformat:2}}
-                </div>
-            {% endfor %}
-        </div>
-
-        <div class="transactions">
-            <h2>Recent transactions:</h2>
-            <a href="{% url 'budget:add_transaction' %}" class="btn">Add a transaction</a>
-            {% for transaction in transactions %}
-                <div class="transaction">
-                    {{transaction.date}} - {{transaction.category_name}} - ${{transaction.spend}}
-                    <a href="{% url 'budget:edit_transaction' transaction.id %}">Edit</a>                    
-                </div>
-            {% endfor %}
-        </div>
-            
+        <p class="dashboard-subtitle">Keep tracking your financial health</p>
     </div>
+
+    <div class="dashboard-grid">
+        <!--perfil del usuario-->
+        <div class="profile-summary card-modern">   
+            <div class="card-header">
+                <h2>Your Profile</h2>
+            </div>
+            <div class="profile-info">
+                <div class="info-item">
+                    <span class="info-label">Monthly Income</span>
+                    <span class="info-value">{{ profile.monthly_income | floatformat:2 }}</span>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-label">Currency</span>
+                    <span class="info-value">{{ profile.currency }}</span>
+                </div>
+            </div>
+
+            <div class="card-actions">
+                <a href="{% url 'budget:edit_profile' %}" class="btn btn-secondary">Edit Profile</a>
+            </div>
+        </div>
+
+        <!--Resumen financiero-->
+        <div class="summary card-modern">
+            <div class="card-header">
+                <h2>Monthly Summary</h2>
+            </div>
+            <div class="summary-stats">
+                <div class="stat-item budget-stat">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-content">
+                        <span class="stat-label">Total Budget</span>
+                        <span class="stat-value">$ {{  total_budget | floatformat:2 }}</span>
+                    </div>
+                </div>
+
+                <div class="stat-item spending-stat">
+                    <div class="stat-icon">💸</div>
+                    <div class="stat-content">
+                        <span class="stat-label">Total Spent</span>
+                        <span class="stat-value">$ {{ total_spent | floatformat:2 }}</span>
+                    </div>
+                </div>
+
+                <div class="stat-item remaining-stat">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-content">
+                        <span class="stat-label">Remaining</span>
+                        <span class="stat-value  {% if remaining_budget < 0  %}negative{% endif %}">
+                            $ {{ remaining_budget | floatformat:2 }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!--barras de progreso de presupuesto-->
+            {%  if total_budget > 0 %}
+            <div class="budget-progress">
+                <div class="progress-info">
+                    <span>Remaining</span>
+                    <span>$ {{ total_spent | floatformat:1 }}% of {{ total_budget | floatformat:0 }}</span>
+                </div>
+                <div class="progress-bar" data-percentage="{% widthratio total_spent total_budget 100 %}"></div>
+            </div>
+            {% endif %}
+
+            <div class="card-actions">
+                <a href="{% url 'budget:add_budget' %}" class="btn btn-primary">
+                    Add Budget
+                </a>
+            </div>
+        </div>
+
+        <!--Metas de ahorro-->
+        <div class="savings-goals card-modern">
+            <div class="card-header">
+                <h2>Savings Goals</h2>
+            </div>
+            <div class="goals-container">
+                {%  for goal in savings_goals %}
+                    <div class="goal goal-modern">
+                        <div class="goal-header">
+                            <h3>{{ goal.name }}</h3>
+                            {% if goal.is_completed %}
+                                <span>Completed! ✅</span>
+                            {% else %}
+                                <span>🚀 In progress...</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="goal-progress">
+                            <div class="progress-info">
+                                <span class="progress-text">
+                                    $ {{ goal.current_amount | floatformat:2 }} / $ {{ goal.target_amount | floatformat:2 }}
+                                </span>
+                                <span class="progress-percentage">
+                                    {% widthratio goal.current_amount goal.target_amount 100 %} %
+                                </span>
+                                <div class="progress-bar" style="width: {% widthratio goal.current_amount goal.target_amount 100 %}%;" ></div>
+                            </div>
+                            <div class="goal-date">
+                                <span>🗓️ Target: {{ goal.target_date | date:"M d, Y" }}</span>
+                            </div>
+                            {% if not goal.is_completed %}
+                                <div class="goal-actions">
+                                    <a href="{% url 'budget:edit_savings_goal' goal.id %} " class="btn btn-small">✏️ Edit Goal</a>
+                                </div>
+                            {% endif %}
+                        </div>   
+                    </div>  
+                {% empty %} 
+                    <div class="empty-status">
+                        <p>No savings goals yet, set your first financial goal</p>
+                    </div>        
+                {% endfor %}
+                    
+                
+            </div>
+            
+            <div class="card-actions">
+                <a href="{% url 'budget:add_savings_goal' %}" class="btn btn-success">
+                    ➕ Create a new savings goal
+                </a>
+            </div>
+        </div>
+
+        <!--Gastos por categoria-->
+
+        <div class="category-totals card-modern">
+            <div class="card-header">
+                <h2>Spending by category</h2>
+            </div>
+            <div class="category-list">
+                {% for category in category_totals %}
+                    <div class="category category-modern">
+                        <div class="category-info">
+                            <span>{{ category.category__name }}</span>
+                            <span>{{ category.total | floatformat:2 }}</span>
+                        </div>
+                        {% if total_spent > 0 %}
+                            <div class="category-progress">
+                                <div class="progress-bar small" data-percentage="{% widthratio category.total total_spent 100 %}"></div>
+                                <div class="category-percentage">{% widthratio category.total total_spent 100 %} %</div>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% empty %}
+                    <div class="empty-status">
+                        <p>No spending data yet</p>
+                        <p>Add your first transaction</p>
+                    </div>    
+                {% endfor %}
+            </div>
+            <div class="card-actions">
+                <a href="{% url 'budget:spending_analysis' %}" class="btn btn-outline">
+                    📈 View Analysis 
+                </a>
+            </div>
+        </div>
+
+        <!--Transacciones recientes-->
+        <div class="transactions card-modern full-width">
+            <div class="card-header">
+                <h2>Recent transactions</h2>
+            </div>
+            <div class="transaction-list">
+                {% for transaction in transactions %}
+                    <div class="transaction transaction-modern">
+                       <div class="transaction-info">
+                            <span>{{ transaction.category.name }}</span>
+                            <span>{{ transaction.date | date:"M d, Y" }}</span>
+                       </div> 
+                       <div class="transaction-amount">
+                            <span>$ {{ transaction.spend | floatformat:2 }}</span>
+                       </div>
+                    </div>
+                    <div class="transaction-actions">
+                        <a href="{% url 'budget:edit_transaction' transaction.id %}" class="btn btn-small btn-outline">
+                            ✏️ Edit transaction
+                        </a>
+                        <a href="{% url 'budget:add_transaction' %}" class="btn btn-small btn-outline">
+                            ➕ Add transaction
+                        </a>
+                    </div>
+                {% empty %}   
+                    <div class="empty-status"> 
+                        <p>No transactions yet</p>
+                        <p>Add your first transaction</p>
+                    </div> 
+                    <div class="card-actions">
+                        <a href="{% url 'budget:add_transaction' %}" class="btn btn-outline">
+                            ➕Add Transaction
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 {% endblock %}

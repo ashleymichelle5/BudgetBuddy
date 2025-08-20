@@ -22,7 +22,7 @@ class BudgetForm(forms.ModelForm):
         model = Budget
         fields = ['category', 'amount', 'month']
         widgets = {
-            'month' : forms.DateInput(attrs={'type' : 'month'})
+            'month' : forms.DateInput(attrs={'type' : 'date'})
         }
 
 class UserProfileForm(forms.ModelForm):

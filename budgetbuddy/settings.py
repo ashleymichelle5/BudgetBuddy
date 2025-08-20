@@ -18,8 +18,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if not 'ON_HEROKU' in os.environ:
-    DEBUG = True
+
+DEBUG = True
 
 
 ALLOWED_HOSTS = ['*']
@@ -74,24 +74,16 @@ WSGI_APPLICATION = 'budgetbuddy.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-if 'ON_HEROKU' in os.environ:
-    DATABASES = {
-        "default": dj_database_url.config(
-            env='DATABASE_URL',
-            conn_max_age=600,
-            conn_health_checks=True,
-            ssl_require=True,
-        ),
+DATABASES = {
+    'default': {
+        'ENGINE' : 'django.db.backends.postgresql',
+        'NAME' : 'budgetbuddy_gqyc',
+        'USER' : 'budgetbuddy',
+        'PASSWORD' : 'KhUXRQeAmASuamER4KhWuubWTwMQNWgD',
+        'HOST': 'dpg-d1gkknemcj7s73cten6g-a.oregon-postgres.render.com',
+        'PORT' : '5432',
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'budgetbuddy',
-        }
-    }
-
-
+}
 
 
 # Password validation

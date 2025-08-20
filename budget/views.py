@@ -73,8 +73,15 @@ def delete_transaction(request, transaction_id):
 def dashboard(request):
     UserProfile.objects.get_or_create(user=request.user)
 
-    current_month = datetime.now().month
-    budgets = Budget.objects.filter(user=request.user)
+    now = datetime.now()
+    current_month = now.month
+    current_year = now.year
+    all_budgets = Budget.objects.filter(user=request.user)
+    budgets = Budget.objects.filter(
+        user=request.user,
+        month__year=current_year,
+        month__month=current_month
+    )
     transactions = Transaction.objects.filter(
         user=request.user,
         date__month=current_month
@@ -97,7 +104,12 @@ def dashboard(request):
         'savings_goals' : savings_goals,
         'category_totals' : category_totals,
         'total_budget' : total_budget,
-        'remaining_budget' : total_budget - total_spent
+        'remaining_budget' : total_budget - total_spent,
+        'current_month' : timezone.now().strftime('%B %Y'),
+        'debug_current_month' : current_month,
+        'debug_current_year' : current_year,
+        'debug_all_budgets_count' : all_budgets.count(),
+
     }
     context.update({
         'profile':request.user.userprofile
@@ -118,7 +130,7 @@ def add_budget(request):
             budget = form.save(commit=False)
             budget.user = request.user
             budget.save()
-            messages.success('Budget set successfully')
+            messages.success(request,'Budget set successfully')
             return redirect('budget:dashboard')
     else:
         form = BudgetForm()

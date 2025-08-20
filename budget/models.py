@@ -39,7 +39,7 @@ class Budget(models.Model):
     month = models.DateField()
 
     def __str__(self):
-        return f'{self.user.username} - {self.category.name} - {self.amount}'
+        return f'{self.user.username} - {self.category.name} - {self.amount}' 
     
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
