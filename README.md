@@ -11,7 +11,7 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue.svg)](https://www.postgresql.org/)
 [![Heroku](https://img.shields.io/badge/Deployed%20on-Heroku-purple.svg)](https://budget-buddy1-c92a3320901e.herokuapp.com/dashboard/)
 
-[🚀 Live Demo](https://budget-buddy1-c92a3320901e.herokuapp.com/dashboard/) •  [View Code](https://github.com/ashleymichelle5/BudgetBuddy)
+[🚀 Live Demo](https://budget-buddy1-c92a3320901e.herokuapp.com/dashboard/) •  [📂 View Code](https://github.com/ashleymichelle5/BudgetBuddy)
 
 </div>
 
