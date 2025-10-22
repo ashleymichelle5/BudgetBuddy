@@ -91,7 +91,7 @@ BudgetBuddy leverages the following Django modules and Python libraries:
 
 ## 👨‍💻 Author
 
-**Your Name**
+**Ashley Sanchez**
 
 - GitHub: [@ashleymichelle5](https://github.com/ashleymichelle5)
 - LinkedIn: [Your Name](https://linkedin.com/in/your-profile)
