@@ -1,7 +1,4 @@
-# 💰 BudgetBuddy
-
-<div align="center">
-    
+# BudgetBuddy 
 ![screenshot of the app](./budget/static/img/Screenshot-app.png)
 
 **A comprehensive budget management web application to take control of your finances**
